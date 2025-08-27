@@ -1,3 +1,6 @@
+# regul-energia-lakehouse
+
+```text
 [runjobs.py] ──chama──>  [Wrappers]
                              │
                              ├── load_continuidades() ──► baixar_e_carregar(READ_CONT, "stg_continuidades_2020_2025", filtros)
@@ -21,4 +24,19 @@
    (datastore_search / _sql)                        stg_continuidades_2020_2025
                                                     stg_compensacoes_2020_2025
                                                           stg_limites
-# regul-energia-lakehouse
+```
+
+## Estrutura do Repositório
+
+```text
+/docs/            # visão, diagramas, decisões de arquitetura
+/src/
+  ingestion/      # scripts de ingestão (CKAN -> staging no Postgres)
+  quality/        # validações de data quality (ex: Pandera / Great Expectations)
+  transforms/     # SQL: dimensões, fatos, views (camada core)
+  analytics/      # notebooks e análises exploratórias
+/app/             # app (ex: Streamlit) e guias de visualização (Power BI)
+/infra/           # infraestrutura (docker-compose, configs, .env.example)
+README.md         # visão geral do projeto
+LICENSE           # licença do repositório
+

@@ -26,6 +26,36 @@
                                                           stg_limites
 ```
 
+## Passos
+1. **Banco**: criar DB `case_equatorial` e schemas `raw`, `stg`, `core`.
+2. **Ingestão**: rodar scripts em `/src/ingestion/` (CKAN → `stg_*`).
+3. **Transform**: `dbt init`, configurar profile Postgres, `dbt deps`, `dbt run`, `dbt test`.
+4. **Observabilidade**: `edr report` (Elementary) para gerar relatório HTML de saúde.
+5. **(Opcional)**: Painel Streamlit para métricas de qualidade (freshness, volumes, falhas).
+
+## Qualidade & Observabilidade (o que é checado)
+- **Conformidade**: tipos/valores válidos (`indicador ∈ {DEC,FEC}`, `mes ∈ 1..12`, `ano ∈ 2020..2025`)
+- **Completude**: % nulos em campos críticos; meses faltantes por distribuidora
+- **Consistência**: chaves únicas `(ide_conjunto, ano, mes, indicador)`; FK para `dim_conjunto`
+- **Acurácia (pragmática)**: faixas plausíveis (FEC ≤ 50; DEC ≥ 0)
+- **Pontualidade (Freshness)**: `MAX(dat_geracao)` dentro do SLA mensal
+- **Volume**: linhas por mês comparado ao histórico
+
+## Comandos úteis
+```bash
+# instalar pacotes
+pip install -U pandas requests sqlalchemy psycopg2-binary python-dotenv dbt-postgres elementary-data
+
+# rodar dbt
+dbt deps
+dbt run
+dbt test
+
+# relatório elementary
+edr report
+
+```
+
 ## Estrutura do Repositório
 
 ```text

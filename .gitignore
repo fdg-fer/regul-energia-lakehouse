@@ -4,6 +4,6 @@ GBD_gis/
 geojson/
 sql/
 .env
-case_equatorial.pbix
-Case/
-
+.pbix
+.pdf
+.log
